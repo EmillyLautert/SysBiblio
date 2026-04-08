@@ -47,7 +47,12 @@ public class Livro {
         this.numeroPaginas = numeroPaginas;
     }
 
+    @Override
+    public String toString() {
+        return "Título: " + this.titulo + " | Autor: " + this.autor + " | Ano de Publicação: " + this.anoPublicacao + " | Nº de Páginas: " + this.numeroPaginas;
+    }
+
 //botão direito > Source Action > Generate Constructor = constrói automático
 //botão direito > Source Action > Generate Getters and Setters = gera automático
-    
+//botão direito > Source Action > Override = subscreve o ToString
 }
