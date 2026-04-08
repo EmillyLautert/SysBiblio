@@ -57,6 +57,11 @@ void cadastrar() throws Exception {
 }
 
 void listar() {
+
+    if (acervo.isEmpty()) {
+        IO.println("Nenhum livro cadastrado!");
+        return;
+    }
     int i = 1;
     for (Livro livro : acervo) {
         IO.println(i++  + " - " + livro);
