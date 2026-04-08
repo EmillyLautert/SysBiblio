@@ -1,7 +1,7 @@
 import java.util.List;
-import java.util.ArrayList;
 
-List<Livro> acervo = new ArrayList<>();
+//Dependencias
+LivroService service = new LivroService();
 
 void main() {
     String menu = """
@@ -42,42 +42,35 @@ void cadastrar() throws Exception {
 
     Livro novoLivro = new Livro(titulo, autor, anoPublicacao, numeroPaginas);
 
-    if (novoLivro.getAnoPublicacao() < 1900
-            || novoLivro.getAnoPublicacao() > LocalDate.now().getYear())
-        throw new Exception("Ano de publicação inválido!");
-    for (Livro livro : acervo) {
-        if (livro.getTitulo().equalsIgnoreCase(novoLivro.getTitulo())
-            && livro.getAutor().equalsIgnoreCase(novoLivro.getAutor())
-            && livro.getAnoPublicacao() == novoLivro.getAnoPublicacao())
-            throw new Exception("Já existe livro cadastrado com este título, autor e ano de publicação!");
-    }
+    service.cadastrar(novoLivro);
 
-    acervo.add(novoLivro);
     IO.println("Livro cadastrado com sucesso!");
 }
 
 void listar() {
 
-    if (acervo.isEmpty()) {
+    List<Livro> livros = service.listar();
+
+    imprimirLista(livros);
+
+}
+
+void pesquisar() {
+    
+    String pesquisa = Input.scanString("Digite parte do título: ");
+    
+    List<Livro> livros = service.pesquisar(pesquisa);
+
+    imprimirLista(livros);
+}
+
+void imprimirLista(List<Livro> livros) {
+    if (livros.isEmpty()) {
         IO.println("Nenhum livro cadastrado!");
         return;
     }
     int i = 1;
-    for (Livro livro : acervo) {
+    for (Livro livro : livros) {
         IO.println(i++  + " - " + livro);
     }
-}
-
-void pesquisar() {
-    String pesquisa = Input.scanString("Digite parte do título: ");
-    int i = 1;
-    boolean encontrou = false;
-    for (Livro livro : acervo) {
-        if (livro.getTitulo().toLowerCase().contains(pesquisa)) {
-            IO.println(i++ + " - " + livro);
-            encontrou = true;
-        }
-    }
-    if (!encontrou)
-        IO.println("Não foi possível encontrar nenhum livro com base nesta pesquisa");
 }
