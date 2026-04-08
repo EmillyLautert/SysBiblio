@@ -69,5 +69,15 @@ void listar() {
 }
 
 void pesquisar() {
-
+    String pesquisa = Input.scanString("Digite parte do título: ");
+    int i = 1;
+    boolean encontrou = false;
+    for (Livro livro : acervo) {
+        if (livro.getTitulo().toLowerCase().contains(pesquisa)) {
+            IO.println(i++ + " - " + livro);
+            encontrou = true;
+        }
+    }
+    if (!encontrou)
+        IO.println("Não foi possível encontrar nenhum livro com base nesta pesquisa");
 }
