@@ -32,6 +32,12 @@ public class LivroService {
                 || novoLivro.getAnoPublicacao() > LocalDate.now().getYear()) {
             throw new Exception("Ano de publicação inválido!");
         }
+
+        // validar número de páginas
+        if (novoLivro.getNumeroPaginas() <= 0) {
+            throw new Exception("Número de páginas inválido! Deve ser maior que zero.");
+        }
+
         for (Livro livro : acervo) {
             if (livro.getTitulo().equalsIgnoreCase(novoLivro.getTitulo())
                     && livro.getAutor().equalsIgnoreCase(novoLivro.getAutor())
@@ -47,24 +53,34 @@ public class LivroService {
         return acervo;
     }
 
-    public List<Livro> pesquisar(String titulo) {
+    public List<Livro> pesquisar(String titulo) throws Exception {
+        if (titulo == null || titulo.trim().isEmpty()) {
+            throw new Exception("Título inválido para pesquisa!");
+        }
+
         List<Livro> livrosEncontrados = new ArrayList<>();
         titulo = titulo.toUpperCase();
-        
+
         for (Livro livro : acervo) {
-            if (livro.getTitulo().contains(titulo))
+            if (livro.getTitulo().contains(titulo)) {
                 livrosEncontrados.add(livro);
+            }
         }
         return livrosEncontrados;
     }
 
-    public List<Livro> pesquisarPorAutor(String autor) {
+    public List<Livro> pesquisarPorAutor(String autor) throws Exception {
+        if (autor == null || autor.trim().isEmpty()) {
+            throw new Exception("Autor inválido para pesquisa!");
+        }
+
         List<Livro> livrosEncontrados = new ArrayList<>();
         autor = autor.toUpperCase();
 
         for (Livro livro : acervo) {
-            if (livro.getAutor().contains(autor))
+            if (livro.getAutor().contains(autor)) {
                 livrosEncontrados.add(livro);
+            }
         }
         return livrosEncontrados;
     }
@@ -73,8 +89,9 @@ public class LivroService {
         List<Livro> livrosEncontrados = new ArrayList<>();
 
         for (Livro livro : acervo) {
-            if (livro.getAnoPublicacao() == anoPublicacao)
+            if (livro.getAnoPublicacao() == anoPublicacao) {
                 livrosEncontrados.add(livro);
+            }
         }
         return livrosEncontrados;
     }
@@ -111,6 +128,10 @@ public class LivroService {
         if (livroEditado.getAnoPublicacao() < 1900
                 || livroEditado.getAnoPublicacao() > LocalDate.now().getYear()) {
             throw new Exception("Ano de publicação inválido!");
+        }
+
+        if (livroEditado.getNumeroPaginas() <= 0) {
+            throw new Exception("Número de páginas inválido! Deve ser maior que zero.");
         }
 
         for (int i = 0; i < acervo.size(); i++) {

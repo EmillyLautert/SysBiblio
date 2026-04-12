@@ -59,7 +59,7 @@ void listar() {
 
 }
 
-void pesquisar() {
+void pesquisar() throws Exception {
     
     String menuPesquisa = """
             1 - Pesquisar por título
